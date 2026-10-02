@@ -1,0 +1,33 @@
+---
+import { getMenuWithCacheHint, getSiteSettingsWithCacheHint } from "emdash";
+import { EmDashHead, EmDashBodyStart, EmDashBodyEnd } from "emdash/ui";
+import { createPublicPageContext } from "emdash/page";
+import Logo from "../components/Logo.astro";
+import "../styles/theme.css";
+
+interface Props { title: string; pageTitle?: string | null; description?: string | null; image?: string | null; canonical?: string | null; content?: { collection: string; id: string; slug?: string | null }; }
+const { title, pageTitle, description, image, canonical, content } = Astro.props;
+const [settingsResult, menuResult] = await Promise.all([getSiteSettingsWithCacheHint(), getMenuWithCacheHint("primary")]);
+if (Astro.cache?.enabled) { Astro.cache.set(settingsResult.cacheHint); Astro.cache.set(menuResult.cacheHint); }
+const siteTitle = settingsResult.data?.title ?? "Fire in your belly";
+const fullTitle = title === siteTitle ? title : `${title} — ${siteTitle}`;
+const pageDescription = description ?? settingsResult.data?.tagline ?? "Ideas, people and possibilities in Teesside.";
+const menu = menuResult.data;
+const pageCtx = createPublicPageContext({ Astro, kind: content ? "content" : "custom", pageType: "website", title: fullTitle, pageTitle: pageTitle ?? title, description: pageDescription, canonical, image, content, siteName: siteTitle });
+---
+<!doctype html>
+<html lang="en">
+	<head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="theme-color" content="#fffaf1" /><title>{fullTitle}</title><meta name="description" content={pageDescription} /><EmDashHead page={pageCtx} /></head>
+	<body>
+		<EmDashBodyStart page={pageCtx} />
+		<header class="site-header"><nav class="wrap nav" aria-label="Primary navigation"><a class="brand" href="/" aria-label="Fire in your belly home"><Logo /></a><div class="nav-links">{menu?.items.map((item) => <a href={item.url}>{item.label}</a>)}</div><a class="button button-outline nav-cta" href="#stay-in-the-loop">Keep me in the loop</a><button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false">☰</button></nav></header>
+		<main><slot /></main>
+		<footer class="site-footer"><div class="wrap footer-grid"><Logo compact /><p>Teesside roots. Open minds. <span class="orange-stroke">—</span></p><img src="/assets/teesside-skyline.png" alt="Illustrated Teesside skyline" width="570" height="95" /><small>An initiative by Alasdair McWilliam <span class="orange-stroke">—</span></small></div></footer>
+		<EmDashBodyEnd page={pageCtx} />
+		<script>
+			const toggle = document.querySelector<HTMLButtonElement>(".menu-toggle");
+			const links = document.querySelector<HTMLElement>(".nav-links");
+			toggle?.addEventListener("click", () => { const open = toggle.getAttribute("aria-expanded") === "true"; toggle.setAttribute("aria-expanded", String(!open)); links?.classList.toggle("open", !open); });
+		</script>
+	</body>
+</html>

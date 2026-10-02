@@ -1,0 +1,8 @@
+---
+interface Props { compact?: boolean }
+const { compact = false } = Astro.props;
+---
+<span class:list={["logo", { compact }]}><svg viewBox="0 0 42 54" aria-hidden="true"><path d="M21 20c0 0-9 8-9 17a9 9 0 0 0 18 0c0-7-5-11-6-16-3 3-3 8-3 8s-4-4 0-9z"/><path d="M21 4v7M4 15l6 4M2 34h7M38 15l-6 4M40 34h-7"/></svg><strong>fire in<br />your belly</strong></span>
+<style>
+	.logo{display:inline-flex;align-items:center;gap:.65rem;color:var(--ink);line-height:.83;font-size:1.55rem;letter-spacing:-.06em}.logo svg{width:42px;height:54px;fill:none;stroke:var(--orange);stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round}.logo.compact{font-size:1.25rem}.logo.compact svg{width:35px;height:45px}@media(max-width:620px){.logo{font-size:1.2rem}.logo svg{width:34px;height:44px}}
+</style>

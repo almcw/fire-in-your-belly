@@ -1,0 +1,111 @@
+---
+import { getEmDashEntry, getSiteSettings } from "emdash";
+import Base from "../layouts/Base.astro";
+
+interface HomeData {
+	title: string;
+	hero_eyebrow?: string;
+	hero_heading?: string;
+	hero_body?: string;
+	inspiration_heading?: string;
+	audience_heading?: string;
+	audience_body?: string;
+	meetup_heading?: string;
+	about_heading?: string;
+	about_body?: string;
+	cta_heading?: string;
+	cta_body?: string;
+}
+
+const { entry: home, cacheHint } = await getEmDashEntry("pages", "home");
+if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
+const settings = await getSiteSettings();
+const data = (home?.data ?? {}) as unknown as HomeData;
+
+const copy = {
+	eyebrow: data.hero_eyebrow ?? "Taking shape in Teesside",
+	heading: data.hero_heading ?? "Got something you want to make happen?",
+	body: data.hero_body ?? "An idea you can’t shake. A problem worth solving. A business you want to move forward. Find good people, fresh perspectives and a practical next step.",
+	inspiration: data.inspiration_heading ?? "A little inspiration. A lot of possibility.",
+	audience: data.audience_heading ?? "For people with a bit of fire.",
+	audienceBody: data.audience_body ?? "You might run a café, work from home, support a charity, or have an idea that hasn’t found its feet yet. If you want to solve a problem or make something happen, you’re welcome here.",
+	meetup: data.meetup_heading ?? "Let’s build the first gathering.",
+	about: data.about_heading ?? "Hello, I’m Alasdair.",
+	aboutBody: data.about_body ?? "I’m a Teesside-based thinking partner and problem solver. I help people make sense of complicated things, use technology well, and build the confidence to take ideas forward.",
+	cta: data.cta_heading ?? "Keep that idea warm.",
+	ctaBody: data.cta_body ?? "Leave your email to hear about the first gathering and help shape what comes next.",
+};
+---
+
+<Base title={settings.title ?? "Fire in your belly"} description={settings.tagline ?? "A local Teesside community for people with ideas and the energy to make them happen."}>
+	<section class="hero" id="idea">
+		<div class="hero-copy wrap">
+			<div class="hero-text reveal">
+				<p class="eyebrow" {...home?.edit.hero_eyebrow}>{copy.eyebrow}</p>
+				<h1 {...home?.edit.hero_heading}>{copy.heading}</h1>
+				<p class="hero-deck" {...home?.edit.hero_body}>{copy.body}</p>
+				<div class="hero-actions">
+					<a class="button button-primary" href="#stay-in-the-loop">Keep me in the loop <span aria-hidden="true">→</span></a>
+					<a class="text-link" href="#possibility">Discover the idea</a>
+				</div>
+				<p class="byline">A new local community, started by Alasdair McWilliam. <span aria-hidden="true">—</span></p>
+			</div>
+			<figure class="hero-art reveal reveal-late"><img src="/assets/hero-community.png" alt="Five people sharing ideas around a table in Teesside" width="568" height="410" /></figure>
+		</div>
+	</section>
+
+	<div class="manifesto" aria-label="Our starting point"><span class="spark" aria-hidden="true">✦</span><p>You don’t need a polished pitch. Just something you care about.</p><span class="spark" aria-hidden="true">✦</span></div>
+
+	<section class="possibility" id="possibility">
+		<div class="wrap">
+			<h2 {...home?.edit.inspiration_heading}>{copy.inspiration}</h2>
+			<div class="feature-grid">
+				<article class="feature"><svg viewBox="0 0 80 66" aria-hidden="true"><circle cx="27" cy="20" r="8"/><circle cx="54" cy="20" r="8"/><circle cx="40" cy="14" r="9"/><path d="M10 60V50c0-10 7-17 17-17s17 7 17 17v10M36 60V48c0-11 8-20 19-20s17 8 17 18v14M18 32C9 33 4 40 4 49v11"/></svg><div><h3>Hear from local people</h3><p>Monthly talks are part of the plan: honest stories, useful lessons and ideas from people doing things nearby.</p></div></article>
+				<article class="feature"><svg viewBox="0 0 80 66" aria-hidden="true"><path d="M25 43c-6-4-10-11-10-19C15 10 26 2 40 2s25 8 25 22c0 8-4 15-10 19l-3 11H28zM28 59h24M31 64h18"/><path d="M36 44V30l-6-6M44 44V30l6-6"/></svg><div><h3>Think it through together</h3><p>Bring your question, share what you know, and meet people who see things differently.</p></div></article>
+				<article class="feature"><svg viewBox="0 0 80 66" aria-hidden="true"><path d="M40 15C31 7 21 5 8 8v45c13-3 23-1 32 7 9-8 19-10 32-7V8C59 5 49 7 40 15zM40 15v45M15 15v30c9-1 16 1 25 7M65 15v30c-9-1-16 1-25 7"/></svg><div><h3>Learn something useful</h3><p>Practical learning around business, technology and AI — shaped by what the community needs.</p></div></article>
+			</div>
+		</div>
+	</section>
+
+	<section class="audience" id="who">
+		<div class="wrap audience-grid">
+			<div><h2 {...home?.edit.audience_heading}>{copy.audience}</h2><p class="section-deck" {...home?.edit.audience_body}>{copy.audienceBody}</p><div class="tags" aria-label="Who it is for"><span class="tag peach">Small business owners</span><span class="tag yellow">Community doers</span><span class="tag sage">Curious starters</span></div></div>
+			<div class="note-card"><div class="flame" aria-hidden="true">♨</div><p class="hand">You bring the spark.</p><strong>We’ll make room for<br />the conversation.</strong></div>
+			<p class="margin-note hand">Different backgrounds.<br />Shared curiosity.<br />A stronger Teesside.</p>
+		</div>
+	</section>
+
+	<section class="meetup" id="happening"><div class="wrap meetup-grid"><div><p class="eyebrow">First Teesside meet-up</p><h2 {...home?.edit.meetup_heading}>{copy.meetup}</h2></div><p class="meetup-copy"><strong>A local story. A useful conversation.<br />Your next step.</strong><br /><span>Date and venue to be announced.</span></p><a class="button button-outline" href="#stay-in-the-loop">Hear when it’s ready <span aria-hidden="true">→</span></a><div class="bridge-doodle" aria-hidden="true">⌁⌁╱╲⌁⌁</div></div></section>
+
+	<section class="about" id="about">
+		<div class="wrap about-grid">
+			<div class="portrait-wrap"><img src="/assets/alasdair.png" alt="Alasdair McWilliam" width="126" height="126" /><span class="hand">Alasdair’s<br />photo</span></div>
+			<div><h2 {...home?.edit.about_heading}>{copy.about}</h2><p {...home?.edit.about_body}>{copy.aboutBody}</p><a class="text-link" href="https://askalasdair.com" target="_blank" rel="noreferrer">More about Ask Alasdair <span aria-hidden="true">↗</span></a></div>
+			<blockquote class="hand">“Curious people<br />build brighter places.”</blockquote>
+		</div>
+	</section>
+
+	<section class="cta" id="stay-in-the-loop">
+		<div class="wrap cta-grid">
+			<div><h2 {...home?.edit.cta_heading}>{copy.cta}</h2><p {...home?.edit.cta_body}>{copy.ctaBody}</p></div>
+			<form class="interest-form" data-interest-form><label class="sr-only" for="email">Your email address</label><div class="form-row"><input id="email" name="email" type="email" autocomplete="email" placeholder="Your email address" required /><button class="button button-dark" type="submit">Keep me in the loop</button></div><p class="form-note" data-form-status>Early interest only. Dates and details are still taking shape.</p></form>
+		</div>
+	</section>
+
+	<script>
+		const form = document.querySelector<HTMLFormElement>("[data-interest-form]");
+		const status = document.querySelector<HTMLElement>("[data-form-status]");
+		form?.addEventListener("submit", async (event) => {
+			event.preventDefault();
+			const button = form.querySelector<HTMLButtonElement>("button");
+			const email = new FormData(form).get("email");
+			if (!button || !status || typeof email !== "string") return;
+			button.disabled = true; button.textContent = "Joining…";
+			try {
+				const response = await fetch("/api/interest", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ email }) });
+				if (!response.ok) throw new Error("Unable to save");
+				form.reset(); status.textContent = "You’re on the list — we’ll be in touch when the first gathering is ready."; status.classList.add("success"); button.textContent = "You’re in";
+			} catch { status.textContent = "Something went wrong. Please try again in a moment."; button.textContent = "Try again"; button.disabled = false; }
+		});
+	</script>
+</Base>

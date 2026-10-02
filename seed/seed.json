@@ -1,0 +1,45 @@
+{
+	"$schema": "https://emdashcms.com/seed.schema.json",
+	"version": "1",
+	"meta": { "name": "Fire in your belly", "description": "A local Teesside community landing site", "author": "Alasdair McWilliam" },
+	"settings": { "title": "Fire in your belly", "tagline": "Ideas, people and possibilities in Teesside." },
+	"collections": [{
+		"slug": "pages", "label": "Pages", "labelSingular": "Page", "urlPattern": "/{slug}", "supports": ["drafts", "revisions", "preview", "seo"],
+		"fields": [
+			{ "slug": "title", "label": "Title", "type": "string", "required": true },
+			{ "slug": "hero_eyebrow", "label": "Hero eyebrow", "type": "string" },
+			{ "slug": "hero_heading", "label": "Hero heading", "type": "string" },
+			{ "slug": "hero_body", "label": "Hero body", "type": "text" },
+			{ "slug": "inspiration_heading", "label": "Inspiration heading", "type": "string" },
+			{ "slug": "audience_heading", "label": "Audience heading", "type": "string" },
+			{ "slug": "audience_body", "label": "Audience body", "type": "text" },
+			{ "slug": "meetup_heading", "label": "Meet-up heading", "type": "string" },
+			{ "slug": "about_heading", "label": "About heading", "type": "string" },
+			{ "slug": "about_body", "label": "About body", "type": "text" },
+			{ "slug": "cta_heading", "label": "Call to action heading", "type": "string" },
+			{ "slug": "cta_body", "label": "Call to action body", "type": "text" }
+		]
+	}],
+	"menus": [{ "name": "primary", "label": "Primary Navigation", "items": [
+		{ "type": "custom", "label": "The idea", "url": "/#idea" },
+		{ "type": "custom", "label": "What’s happening", "url": "/#happening" },
+		{ "type": "custom", "label": "Who it’s for", "url": "/#who" }
+	] }],
+	"content": { "pages": [{
+		"id": "page-home", "slug": "home", "status": "published",
+		"data": {
+			"title": "Home",
+			"hero_eyebrow": "Taking shape in Teesside",
+			"hero_heading": "Got something you want to make happen?",
+			"hero_body": "An idea you can’t shake. A problem worth solving. A business you want to move forward. Find good people, fresh perspectives and a practical next step.",
+			"inspiration_heading": "A little inspiration. A lot of possibility.",
+			"audience_heading": "For people with a bit of fire.",
+			"audience_body": "You might run a café, work from home, support a charity, or have an idea that hasn’t found its feet yet. If you want to solve a problem or make something happen, you’re welcome here.",
+			"meetup_heading": "Let’s build the first gathering.",
+			"about_heading": "Hello, I’m Alasdair.",
+			"about_body": "I’m a Teesside-based thinking partner and problem solver. I help people make sense of complicated things, use technology well, and build the confidence to take ideas forward.",
+			"cta_heading": "Keep that idea warm.",
+			"cta_body": "Leave your email to hear about the first gathering and help shape what comes next."
+		}
+	}] }
+}
